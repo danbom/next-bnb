@@ -34,11 +34,18 @@ module.exports = {
       { js: "never", jsx: "never", ts: "never", tsx: "never" },
     ],
     "object-curly-newline": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        namedComponents: "arrow-function",
+        unnamedComponents: "arrow-function",
+      },
+    ],
   },
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"],
+        extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts", ".svg"],
       },
     },
   },
