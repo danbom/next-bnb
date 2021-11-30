@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import palette from "../styles/palette";
 import NextbnbLogoIcon from "../public/static/svg/logo/logo.svg";
 import NextbnbLogoTextIcon from "../public/static/svg/logo/logo_text.svg";
 
@@ -23,6 +24,35 @@ const Container = styled.div`
       margin-right: 6px;
     }
   }
+  /* 헤더 로그인 회원가입 버튼 */
+  .header-auth-buttons {
+    .header-sign-up-button {
+      height: 42px;
+      margin-right: 8px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 21px;
+      background-color: white;
+      cursor: pointer;
+      outline: none;
+      &:hover {
+        background-color: ${palette.gray_f7};
+      }
+    }
+    .header-login-button {
+      height: 42px;
+      padding: 0 16px;
+      border: 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+      border-radius: 21px;
+      background-color: white;
+      cursor: pointer;
+      outline: none;
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
 `;
 
 const Header: React.FC = () => {
@@ -34,6 +64,14 @@ const Header: React.FC = () => {
           <NextbnbLogoTextIcon />
         </a>
       </Link>
+      <div className="header-auth-buttons">
+        <button type="button" className="header-sign-up-button">
+          회원가입
+        </button>
+        <button type="button" className="header-login-button">
+          로그인
+        </button>
+      </div>
     </Container>
   );
 };
