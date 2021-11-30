@@ -41,6 +41,7 @@ module.exports = {
         unnamedComponents: "arrow-function",
       },
     ],
+    "comma-dangle": "off",
   },
   settings: {
     "import/resolver": {
