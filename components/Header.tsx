@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Link from "next/link";
 import NextbnbLogoIcon from "../public/static/svg/logo/logo.svg";
 import NextbnbLogoTextIcon from "../public/static/svg/logo/logo_text.svg";
 
@@ -27,10 +28,12 @@ const Container = styled.div`
 const Header: React.FC = () => {
   return (
     <Container>
-      <div className="header-logo-wrapper">
-        <NextbnbLogoIcon className="header-logo" />
-        <NextbnbLogoTextIcon />
-      </div>
+      <Link href="/">
+        <a href="#/" className="header-logo-wrapper">
+          <NextbnbLogoIcon className="header-logo" />
+          <NextbnbLogoTextIcon />
+        </a>
+      </Link>
     </Container>
   );
 };
