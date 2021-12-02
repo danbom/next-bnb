@@ -46,7 +46,7 @@ module.exports = {
   settings: {
     "import/resolver": {
       node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts", ".svg"],
+        extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts", "*.svg"],
       },
     },
   },

@@ -44,7 +44,27 @@ const Container = styled.form`
 `;
 
 const SignUpModal: React.FC = () => {
-  return <Container>Sign Up</Container>;
+  return (
+    <Container>
+      <CloseXIcon className="mordal-close-x-icon" />
+      <div className="input-wrapper">
+        <input placeholder="이메일 주소" type="email" name="email" />
+        <MailIcon />
+      </div>
+      <div className="input-wrapper">
+        <input placeholder="이름( 예: 길동 )" />
+        <PersonIcon />
+      </div>
+      <div className="input-wrapper">
+        <input placeholder="성( 예: 홍 )" />
+        <PersonIcon />
+      </div>
+      <div className="input-wrapper">
+        <input placeholder="비밀번호 설정하기" type="password" />
+        <OpenedEyeIcon />
+      </div>
+    </Container>
+  );
 };
 
 export default SignUpModal;
