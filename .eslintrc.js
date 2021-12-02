@@ -42,6 +42,7 @@ module.exports = {
       },
     ],
     "comma-dangle": "off",
+    "react/prop-types": "off",
   },
   settings: {
     "import/resolver": {

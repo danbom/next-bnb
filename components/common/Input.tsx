@@ -13,19 +13,19 @@ const Container = styled.div<{ iconExist: boolean }>`
     font-size: 16px;
     outline: none;
     ::placeholder {
-        color: ${palette.gray_76}
+      color: ${palette.gray_76};
     }
     & :focus {
-        border-color:: ${palette.dark_cyan} !important;
+      border-color: ${palette.dark_cyan} !important;
     }
   }
   .input-icon-wrapper {
-      position: absolute;
-      top: 0;
-      right: 11px;
-      height: 46px;
-      display: flex;
-      align-items: center;
+    position: absolute;
+    top: 0;
+    right: 11px;
+    height: 46px;
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -34,5 +34,12 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input: React.FC<IProps> = ({ icon, ...props }) => {
-  return <Container iconExist={!!icon}></Container>;
+  return (
+    <Container iconExist={!!icon}>
+      <input {...props} />
+      <div className="input-icon-wrapper">{icon}</div>
+    </Container>
+  );
 };
+
+export default Input;
