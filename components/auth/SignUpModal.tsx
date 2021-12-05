@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CloseXIcon from "../../public/static/svg/modal/modal_close_x_icon.svg";
 import MailIcon from "../../public/static/svg/auth/mail.svg";
@@ -28,23 +28,67 @@ const Container = styled.form`
 `;
 
 const SignUpModal: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [password, setPassword] = useState("");
+
+  //* 이메일 주소 변경 시
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  //* 이름 변경 시
+  const onChangeLastname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLastname(e.target.value);
+  };
+
+  //* 성 변경 시
+  const onChangeFirstname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFirstname(e.target.value);
+  };
+
+  //* 비밀번호 변경 시
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
   return (
     <Container>
       <CloseXIcon className="mordal-close-x-icon" />
       <div className="input-wrapper">
-        <Input placeholder="이메일 주소" type="email" icon={<MailIcon />} />
+        <Input
+          placeholder="이메일 주소"
+          type="email"
+          icon={<MailIcon />}
+          name="email"
+          value={email}
+          onChange={onChangeEmail}
+        />
       </div>
       <div className="input-wrapper">
-        <Input placeholder="이름( 예: 길동 )" icon={<PersonIcon />} />
+        <Input
+          placeholder="이름( 예: 길동 )"
+          icon={<PersonIcon />}
+          value={lastname}
+          onChange={onChangeLastname}
+        />
       </div>
       <div className="input-wrapper">
-        <Input placeholder="성( 예: 홍 )" icon={<PersonIcon />} />
+        <Input
+          placeholder="성( 예: 홍 )"
+          icon={<PersonIcon />}
+          value={firstname}
+          onChange={onChangeFirstname}
+        />
       </div>
       <div className="input-wrapper">
         <Input
           placeholder="비밀번호 설정하기"
           type="password"
           icon={<OpenedEyeIcon />}
+          value={password}
+          onChange={onChangePassword}
         />
       </div>
     </Container>
