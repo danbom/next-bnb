@@ -9,13 +9,15 @@ import palette from "../../styles/palette";
 import Input from "../common/Input";
 import { dayList, monthList, yearList } from "../../lib/staticData";
 import Selector from "../common/Selector";
+import Button from "../common/Button";
 
 const Container = styled.form`
   width: 568px;
-  height: 614px;
+  height: 630px;
   padding: 32px;
   background-color: white;
   z-index: 11;
+  border-radius: 7px;
 
   .modal-close-x-icon {
     cursor: pointer;
@@ -38,7 +40,6 @@ const Container = styled.form`
   .sign-up-birthday-label {
     font-size: 16px;
     font-weight: 600;
-    margin-top: 16px;
     margin-bottom: 8px;
   }
 
@@ -49,7 +50,7 @@ const Container = styled.form`
 
   .sign-up-modal-birthday-selectors {
     display: flex;
-    margin-bottom: 24px;
+    margin-bottom: 34px;
 
     .sign-up-modal-birthday-month-selector {
       margin-right: 16px;
@@ -64,6 +65,12 @@ const Container = styled.form`
     .sign-up-modal-birthday-year-selector {
       width: 33.3333%;
     }
+  }
+
+  .sign-up-modal-submit-button-wrapper {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid ${palette.gray_eb};
   }
 `;
 
@@ -193,6 +200,9 @@ const SignUpModal: React.FC = () => {
             onChange={onChangeBirthYear}
           />
         </div>
+      </div>
+      <div className="sign-up-modal-submit-button-wrapper">
+        <Button type="submit">가입하기</Button>
       </div>
     </Container>
   );
