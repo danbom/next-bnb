@@ -1,5 +1,6 @@
 //* 1월부터 12월까지
-const monthList = [
+// eslint-disable-next-line import/prefer-default-export
+export const monthList = [
   "1월",
   "2월",
   "3월",
@@ -14,4 +15,8 @@ const monthList = [
   "12월",
 ];
 
-export default monthList;
+//* 1부터 31까지
+export const dayList = Array.from(Array(31), (_, i) => String(i + 1));
+
+//* 2020년부터 1900년까지
+export const yearList = Array.from(Array(121), (_, i) => String(2020 - i));

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import styled from "styled-components";
 import palette from "../../styles/palette";
@@ -15,9 +16,6 @@ const Container = styled.div`
     border-radius: 4px;
     outline: none;
     -webket-appearance: none;
-    background-image: url("/static/svg/common/selector/selector_down_arrow.svg");
-    background-position: right 11px center;
-    background-repeat: no-repeat;
     font-size: 16px;
 
     &:focus {
@@ -29,13 +27,24 @@ const Container = styled.div`
 interface IProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   /* eslint-disable react/require-default-props */
   options?: string[];
+  disabledOptions?: string[];
   value?: string;
 }
 
-const Selector: React.FC<IProps> = ({ options = [], ...props }) => {
+const Selector: React.FC<IProps> = ({
+  options = [],
+  disabledOptions = [],
+  ...props
+}) => {
   return (
     <Container>
       <select {...props}>
+        {disabledOptions.map((option, index) => (
+          /* eslint-disable react/no-array-index-key */
+          <option key={index} value={option} disabled>
+            {option}
+          </option>
+        ))}
         {options.map((option, index) => (
           /* eslint-disable react/no-array-index-key */
           <option key={index} value={option}>
