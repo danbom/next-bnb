@@ -29,6 +29,7 @@ const Container = styled.form`
   }
 
   .sign-up-password-input-wrapper {
+    margin-bottom: 30px;
     svg {
       cursor: pointer;
     }
@@ -118,7 +119,9 @@ const SignUpModal: React.FC = () => {
 
   return (
     <Container>
-      <CloseXIcon className="mordal-close-x-icon" />
+      <CloseXIcon className="modal-close-x-icon" />
+      <p className="sign-up-birthday-label">회원가입</p>
+      <p className="sign-up-modal-birthday-info">기본 정보를 입력해주세요.🤫</p>
       <div className="input-wrapper">
         <Input
           placeholder="✉️ 메일"
