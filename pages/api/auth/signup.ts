@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import Data from "../../../lib/data";
 import bcrypt from "bcryptjs";
+import Data from "../../../lib/data";
 import { StoredUserType } from "../../../types/user";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -48,6 +48,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     Data.user.write([...users, newUser]);
 
     //* 6. 추가된 유저 정보와  token 전달
+    //* JWT(Json Web Token)는 전자 서명된 URL로 이용할 수 있는 문자만 구성된 JSON
+    //* JWT 이용해 서버와 클라이언트 간 통신할 수 있는 사용자 인증 토큰 만들기
+    //* 토큰을 만들기 위해 암호화할 값과 secret 필요
+    const jwt = require("jsonwebtoken");
+    // eslint-disable-next-line no-unused-vars
+    const token = jwt.sign(String(newUser.id), process.env.JWT_SECRET!);
 
     return res.end();
   }
