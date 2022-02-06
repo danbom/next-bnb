@@ -15,6 +15,7 @@ import Button from "../common/Button";
 import { signupAPI } from "../../lib/api/auth";
 import { userActions } from "../../store/user";
 import { commonActions } from "../../store/common";
+import useValidateMode from "../../hooks/useValidateMode";
 
 const Container = styled.form`
   width: 568px;
@@ -89,8 +90,7 @@ const SignUpModal: React.FC = () => {
   const [birthYear, setBirthYear] = useState<string | undefined>();
   const [birthDay, setBirthDay] = useState<string | undefined>();
   const [birthMonth, setBirthMonth] = useState<string | undefined>();
-
-  // const [validateMode, setValidateMode] = useState(false);
+  const { setValidateMode } = useValidateMode();
 
   const dispatch = useDispatch();
 
@@ -138,8 +138,8 @@ const SignUpModal: React.FC = () => {
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // setValidateMode(true);
-    dispatch(commonActions.setValidateMode(true));
+    setValidateMode(true);
+    // dispatch(commonActions.setValidateMode(true));
 
     if (!email || !lastname || !!firstname || !password) {
       return undefined;
