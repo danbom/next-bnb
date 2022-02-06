@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import Data from "../../../lib/data";
 import { StoredUserType } from "../../../types/user";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { email, firstname, lastname, password, birthday } = req.body;
-
   //* 1. api method가 POST인지 확인
   if (req.method === "POST") {
+    const { email, firstname, lastname, password, birthday } = req.body;
+
     //* 2. req.body에 필요한 값이 전부 들어 있는지 확인
     if (!email || !firstname || !lastname || !password || !birthday) {
       res.statusCode = 400;
@@ -51,17 +52,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     //* JWT(Json Web Token)는 전자 서명된 URL로 이용할 수 있는 문자만 구성된 JSON
     //* JWT 이용해 서버와 클라이언트 간 통신할 수 있는 사용자 인증 토큰 만들기
     //* 토큰을 만들기 위해 암호화할 값과 secret 필요
-    const jwt = require("jsonwebtoken");
-
     //* 만들어진 토큰을 브라우저의 쿠키에 저장할 수 있도록 res의 헤더에 'Set-Cookie' 설정
-    const token = jwt.sign(String(newUser.id), process.env.JWT_SECRET!);
-    const Expires = new Date(
-      Date.now() + 60 * 60 * 24 * 1000 * 3
-    ).toUTCString();
-    res.setHeader(
-      "Set-Cookie",
-      `access_token=${token}; Expires=${Expires}; HttpOnly; Path=/;`
-    );
+    await new Promise((resolve) => {
+      const token = jwt.sign(String(newUser.id), process.env.JWT_SECRET!);
+      res.setHeader(
+        "Set-Cookie",
+        `access_token=${token}; path=/; expires=${new Date(
+          Date.now() + 60 * 60 * 24 * 1000 * 3 //3일
+        )}; httponly`
+      );
+      resolve(token);
+    });
 
     return res.end();
   }
