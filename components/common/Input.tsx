@@ -3,6 +3,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import palette from "../../styles/palette";
+import { useSelector } from "../../store";
 
 type InputContainerProps = {
   iconExist: boolean;
@@ -73,19 +74,20 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   // eslint-disable-next-line no-undef
   icon?: JSX.Element;
   isValid?: boolean;
-  validateMode?: boolean; //* 버튼 누르면 true로 변경되어 인풋 값들 확인할 수 있도록 함
+  // validateMode?: boolean; //* 버튼 누르면 true로 변경되어 인풋 값들 확인할 수 있도록 함
   useValidation?: boolean;
   errorMessage?: string;
 }
 
 const Input: React.FC<IProps> = ({
   icon,
-  validateMode = false,
+  // validateMode = false,
   isValid = false,
   useValidation = true,
   errorMessage,
   ...props
 }) => {
+  const validateMode = useSelector((state) => state.common.validateMode);
   return (
     <Container
       iconExist={!!icon}

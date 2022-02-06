@@ -14,6 +14,7 @@ import Selector from "../common/Selector";
 import Button from "../common/Button";
 import { signupAPI } from "../../lib/api/auth";
 import { userActions } from "../../store/user";
+import { commonActions } from "../../store/common";
 
 const Container = styled.form`
   width: 568px;
@@ -89,7 +90,7 @@ const SignUpModal: React.FC = () => {
   const [birthDay, setBirthDay] = useState<string | undefined>();
   const [birthMonth, setBirthMonth] = useState<string | undefined>();
 
-  const [validateMode, setValidateMode] = useState(false);
+  // const [validateMode, setValidateMode] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -137,7 +138,8 @@ const SignUpModal: React.FC = () => {
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setValidateMode(true);
+    // setValidateMode(true);
+    dispatch(commonActions.setValidateMode(true));
 
     if (!email || !lastname || !!firstname || !password) {
       return undefined;
@@ -175,7 +177,7 @@ const SignUpModal: React.FC = () => {
           name="email"
           value={email}
           onChange={onChangeEmail}
-          validateMode={validateMode}
+          // validateMode={validateMode}
           useValidation
           isValid={!!email}
           errorMessage="😳 메일을 입력해주세요."
@@ -187,7 +189,7 @@ const SignUpModal: React.FC = () => {
           icon={<PersonIcon style={{ top: 15 }} />}
           value={lastname}
           onChange={onChangeLastname}
-          validateMode={validateMode}
+          // validateMode={validateMode}
           useValidation
           isValid={!!lastname}
           errorMessage="😳 이름을 입력해주세요."
@@ -199,7 +201,7 @@ const SignUpModal: React.FC = () => {
           icon={<PersonIcon style={{ top: 15 }} />}
           value={firstname}
           onChange={onChangeFirstname}
-          validateMode={validateMode}
+          // validateMode={validateMode}
           useValidation
           isValid={!!firstname}
           errorMessage="😳 성을 입력해주세요."
@@ -218,7 +220,7 @@ const SignUpModal: React.FC = () => {
           }
           value={password}
           onChange={onChangePassword}
-          validateMode={validateMode}
+          // validateMode={validateMode}
           useValidation
           isValid={!!password}
           errorMessage="😳 비밀번호을 입력해주세요."
