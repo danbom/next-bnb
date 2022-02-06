@@ -64,73 +64,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       resolve(token);
     });
 
-    return res.end();
+    //* 유저 정보 저장하기
+    //* 토큰과 함께 생성된 유저 정보 전달하기
+    //* 보안상 password는 전달하지 않음
+    // eslint-disable-next-line operator-linebreak
+    const newUserWithoutPassword: Partial<Pick<StoredUserType, "password">> =
+      newUser;
+
+    delete newUserWithoutPassword.password; //* 객체 속성 제거
+
+    //* delete를 사용해 객체 속성 제거하면 해당 객체의 제거될 속성은 optional이어야 한다는 타입 에러가 발생한다.
+    //* Partial<Pick<StoredUserType, "password">> : Typescript 유틸리티 중 하나로,
+    //* StoredUserType의 password 속성을 Partial로 만든 타입을 만들게 된다.
+    res.statusCode = 200;
+    return res.send(newUser);
   }
   res.statusCode = 405; // 405 Method Not Allowed
 
   return res.end();
 };
-// import { NextApiRequest, NextApiResponse } from "next";
-// import bcrypt from "bcryptjs";
-// import jwt from "jsonwebtoken";
-// import Data from "../../../lib/data";
-// import user from "../../../lib/data/user";
-// import { StoredUserType } from "../../../types/user";
-
-// export default async (req: NextApiRequest, res: NextApiResponse) => {
-//   if (req.method === "POST") {
-//     const { email, firstname, lastname, password, birthday } = req.body;
-//     if (!email || !firstname || !lastname || !password || !birthday) {
-//       res.statusCode = 400;
-//       return res.send("필수 데이터가 없습니다.");
-//     }
-
-//     const userExist = Data.user.exist({ email });
-//     if (userExist) {
-//       res.statusCode = 409;
-//       res.send("이미 가입된 이메일 입니다.");
-//     }
-
-//     const hashedPassword = bcrypt.hashSync(password, 8);
-
-//     const users = Data.user.getList();
-//     let userId;
-//     if (users.length === 0) {
-//       userId = 1;
-//     } else {
-//       userId = users[users.length - 1].id + 1;
-//     }
-//     const newUser: StoredUserType = {
-//       id: userId,
-//       email,
-//       firstname,
-//       lastname,
-//       password: hashedPassword,
-//       birthday,
-//       profileImage: "/static/image/user/default_user_profile_image.jpg",
-//     };
-
-//     Data.user.write([...users, newUser]);
-
-//     await new Promise((resolve) => {
-//       const token = jwt.sign(String(newUser.id), process.env.JWT_SECRET!);
-//       res.setHeader(
-//         "Set-Cookie",
-//         `access_token=${token}; path=/; expires=${new Date(
-//           Date.now() + 60 * 60 * 24 * 1000 * 3 //3일
-//         )}; httponly`
-//       );
-//       resolve(token);
-//     });
-
-//     const newUserWithoutPassword: Partial<Pick<StoredUserType, "password">> =
-//       newUser;
-
-//     delete newUserWithoutPassword.password;
-//     res.statusCode = 200;
-//     return res.send(newUser);
-//   }
-//   res.statusCode = 405;
-
-//   return res.end();
-// };
