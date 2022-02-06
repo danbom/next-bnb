@@ -144,6 +144,7 @@ const SignUpModal: React.FC = () => {
       };
       const { data } = await signupAPI(signUpBody);
 
+      //* 회원가입 완료하면 새로운 유저를 리덕스에 저장
       dispatch(userActions.setLoggedUser(data));
     } catch (error) {
       console.log(error);
