@@ -36,7 +36,6 @@ const Container = styled.div<InputContainerProps>`
   }
   .input-error-message {
     margin-top: 8px;
-    font-weight: 600;
     font-size: 14px;
     color: ${palette.tawny};
   }

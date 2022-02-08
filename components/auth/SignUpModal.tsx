@@ -1,5 +1,6 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable consistent-return */
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import CloseXIcon from "../../public/static/svg/modal/modal_close_x_icon.svg";
@@ -14,8 +15,9 @@ import Selector from "../common/Selector";
 import Button from "../common/Button";
 import { signupAPI } from "../../lib/api/auth";
 import { userActions } from "../../store/user";
-import { commonActions } from "../../store/common";
+// import { commonActions } from "../../store/common";
 import useValidateMode from "../../hooks/useValidateMode";
+import PasswordWarning from "./PasswordWarning";
 
 const Container = styled.form`
   width: 568px;
@@ -38,10 +40,15 @@ const Container = styled.form`
   }
 
   .sign-up-password-input-wrapper {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     svg {
       cursor: pointer;
     }
+  }
+
+  .password-warning-box {
+    font-size: 15px;
+    margin-bottom: 35px;
   }
 
   .sign-up-birthday-label {
@@ -90,6 +97,7 @@ const SignUpModal: React.FC = () => {
   const [birthYear, setBirthYear] = useState<string | undefined>();
   const [birthDay, setBirthDay] = useState<string | undefined>();
   const [birthMonth, setBirthMonth] = useState<string | undefined>();
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const { setValidateMode } = useValidateMode();
 
   const dispatch = useDispatch();
@@ -164,6 +172,41 @@ const SignUpModal: React.FC = () => {
     }
   };
 
+  //* 비밀번호 인풋 포커스 되었을 때
+  //* 비밀번호 설정하기 인풋에 포커싱이 되었을 때 세 가지 체크 옵션이 나타나도록
+  const onFocusPassword = () => {
+    setPasswordFocused(true);
+  };
+
+  //* password가 이름이나 이메일을 포함하는지
+  //* useMemo를 사용해 관련 없는 값의 변화가 발생했을 때 재계산 방지
+  const isPasswordHasNameOrEmail = useMemo(
+    () =>
+      !password ||
+      !lastname ||
+      password.includes(lastname) ||
+      password.includes(email.split("@")[0]),
+    [password, lastname, email]
+  );
+
+  //* 비밀번호 최소 자릿수
+  const PASSWORD_MIN_LENGTH = 8;
+
+  const isPasswordOverMinLength = useMemo(
+    () => !!password && password.length >= PASSWORD_MIN_LENGTH,
+    [password]
+  );
+
+  //* 비밀번호가 숫자나 특수기호를 포함하는지
+  const isPasswordHasNumberOrSymbol = useMemo(
+    () =>
+      !(
+        /[{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"]/g.test(password) ||
+        /[0-9]/g.test(password)
+      ),
+    [password]
+  );
+
   return (
     <Container onSubmit={onSubmitSignUp}>
       <CloseXIcon className="modal-close-x-icon" />
@@ -222,10 +265,31 @@ const SignUpModal: React.FC = () => {
           onChange={onChangePassword}
           // validateMode={validateMode}
           useValidation
-          isValid={!!password}
+          isValid={
+            !isPasswordHasNameOrEmail &&
+            isPasswordOverMinLength &&
+            !isPasswordHasNumberOrSymbol
+          }
           errorMessage="😳 비밀번호을 입력해주세요."
+          onFocus={onFocusPassword}
         />
       </div>
+      {passwordFocused && (
+        <div className="password-warning-box">
+          <PasswordWarning
+            isValid={isPasswordHasNameOrEmail}
+            text="비밀번호에 이름이나 이메일 주소를 포함할 수 없습니다!"
+          />
+          <PasswordWarning
+            isValid={!isPasswordOverMinLength}
+            text="비밀번호는 최소 8자 이상이어야 합니다!"
+          />
+          <PasswordWarning
+            isValid={isPasswordHasNumberOrSymbol}
+            text="비밀번호에 숫자나 기호를 포함해주세요!"
+          />
+        </div>
+      )}
       <p className="sign-up-birthday-label">생일</p>
       <p className="sign-up-modal-birthday-info">성인만 가능합니당!😎</p>
       <div className="sign-up-modal-birthday-selectors">
