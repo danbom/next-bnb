@@ -82,9 +82,19 @@ const Container = styled.form`
   }
 
   .sign-up-modal-submit-button-wrapper {
-    margin-bottom: 4px;
+    margin-bottom: 10px;
     padding-bottom: 4px;
     border-bottom: 1px solid ${palette.gray_eb};
+  }
+
+  .sign-up-modal-set-login {
+    color: ${palette.charcoal};
+    font-size: 15px;
+    span {
+      color: ${palette.dark_cyan};
+      margin-left: 8px;
+      cursor: pointer;
+    }
   }
 `;
 
@@ -362,6 +372,12 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
       <div className="sign-up-modal-submit-button-wrapper">
         <Button type="submit">가입하기</Button>
       </div>
+      <p className="sign-up-modal-set-login">
+        이미 넥스트비앤비 계정이 있나요?
+        <span role="presentation" onClick={() => {}}>
+          로그인
+        </span>
+      </p>
     </Container>
   );
 };
