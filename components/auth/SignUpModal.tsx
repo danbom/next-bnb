@@ -88,7 +88,11 @@ const Container = styled.form`
   }
 `;
 
-const SignUpModal: React.FC = () => {
+interface IProps {
+  closeModal: () => void;
+}
+
+const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -221,6 +225,8 @@ const SignUpModal: React.FC = () => {
 
         //* 회원가입 완료하면 새로운 유저를 리덕스에 저장
         dispatch(userActions.setLoggedUser(data));
+
+        closeModal();
       } catch (error) {
         console.log(error);
       }
@@ -229,7 +235,7 @@ const SignUpModal: React.FC = () => {
 
   return (
     <Container onSubmit={onSubmitSignUp}>
-      <CloseXIcon className="modal-close-x-icon" />
+      <CloseXIcon className="modal-close-x-icon" onClick={closeModal} />
       <p className="sign-up-birthday-label">회원가입</p>
       <p className="sign-up-modal-birthday-info">기본 정보를 입력해주세요.🤫</p>
       <div className="input-wrapper">
