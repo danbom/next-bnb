@@ -142,36 +142,6 @@ const SignUpModal: React.FC = () => {
     setHidePassword(!hidePassword);
   };
 
-  //* 회원가입 폼 제출하기
-  const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    setValidateMode(true);
-    // dispatch(commonActions.setValidateMode(true));
-
-    if (!email || !lastname || !!firstname || !password) {
-      return undefined;
-    }
-
-    try {
-      const signUpBody = {
-        email,
-        lastname,
-        firstname,
-        password,
-        birthday: new Date(
-          `${birthYear}-${birthMonth!.replace("월", "")}-${birthDay}`
-        ).toISOString(),
-      };
-      const { data } = await signupAPI(signUpBody);
-
-      //* 회원가입 완료하면 새로운 유저를 리덕스에 저장
-      dispatch(userActions.setLoggedUser(data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   //* 비밀번호 인풋 포커스 되었을 때
   //* 비밀번호 설정하기 인풋에 포커싱이 되었을 때 세 가지 체크 옵션이 나타나도록
   const onFocusPassword = () => {
@@ -206,6 +176,56 @@ const SignUpModal: React.FC = () => {
       ),
     [password]
   );
+
+  //* 회원가입 폼 입력 값 확인하기
+  const validateSignUpForm = () => {
+    //* 인풋 값이 없다면
+    if (!email || !lastname || !firstname || !password) {
+      return false;
+    }
+    //* 비밀번호가 올바르지 않다면
+    if (
+      isPasswordHasNameOrEmail ||
+      !isPasswordOverMinLength ||
+      isPasswordHasNumberOrSymbol
+    ) {
+      return false;
+    }
+    //* 생년월일 셀렉터 값이 없다면
+    if (!birthDay || !birthMonth || !birthYear) {
+      return false;
+    }
+    return true;
+  };
+
+  //* 회원가입 폼 제출하기
+  const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setValidateMode(true);
+    console.log(validateSignUpForm());
+    // dispatch(commonActions.setValidateMode(true));
+
+    if (validateSignUpForm()) {
+      try {
+        const signUpBody = {
+          email,
+          lastname,
+          firstname,
+          password,
+          birthday: new Date(
+            `${birthYear}-${birthMonth!.replace("월", "")}-${birthDay}`
+          ).toISOString(),
+        };
+        const { data } = await signupAPI(signUpBody);
+
+        //* 회원가입 완료하면 새로운 유저를 리덕스에 저장
+        dispatch(userActions.setLoggedUser(data));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <Container onSubmit={onSubmitSignUp}>
@@ -298,6 +318,7 @@ const SignUpModal: React.FC = () => {
             options={monthList}
             disabledOptions={["월"]}
             defaultValue="월"
+            isValid={!!birthMonth}
             value={birthMonth}
             onChange={onChangeBirthMonth}
           />
@@ -307,6 +328,7 @@ const SignUpModal: React.FC = () => {
             options={dayList}
             disabledOptions={["일"]}
             defaultValue="일"
+            isValid={!!birthDay}
             value={birthDay}
             onChange={onChangeBirthDay}
           />
@@ -316,6 +338,7 @@ const SignUpModal: React.FC = () => {
             options={yearList}
             disabledOptions={["년"]}
             defaultValue="년"
+            isValid={!!birthYear}
             value={birthYear}
             onChange={onChangeBirthYear}
           />
