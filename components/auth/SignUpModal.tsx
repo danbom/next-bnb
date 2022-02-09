@@ -82,13 +82,13 @@ const Container = styled.form`
   }
 
   .sign-up-modal-submit-button-wrapper {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     padding-bottom: 4px;
     border-bottom: 1px solid ${palette.gray_eb};
   }
 
   .sign-up-modal-set-login {
-    color: ${palette.charcoal};
+    color: ${palette.gray_48};
     font-size: 15px;
     span {
       color: ${palette.dark_cyan};

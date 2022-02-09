@@ -17,7 +17,7 @@ const Container = styled.div<InputContainerProps>`
     width: 100%;
     height: 46px;
     padding: ${({ iconExist }) => (iconExist ? "0 44px 0 11px " : "0 11px")};
-    border: 1px solid ${palette.gray_eb};
+    border: 1px solid ${palette.gray_f7};
     border-radius: 4px;
     font-size: 16px;
     outline: none;

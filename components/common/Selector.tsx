@@ -14,7 +14,7 @@ const Container = styled.div<{ isValid: boolean; validateMode: boolean }>`
     width: 100%;
     height: 100%;
     background-color: white;
-    border: 1px solid ${palette.gray_eb};
+    border: 1px solid ${palette.gray_f7};
     padding: 0 11px;
     border-radius: 4px;
     outline: none;
