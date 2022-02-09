@@ -1,6 +1,6 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable consistent-return */
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import CloseXIcon from "../../public/static/svg/modal/modal_close_x_icon.svg";
@@ -201,6 +201,15 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
     }
     return true;
   };
+
+  //* 리덕스 사용해 validateMode 사용했기 때문에,
+  //* validateMode가 다른 곳에서 사용되지 않으려면
+  //* 컴포넌트 언마운트 시 validateMode 꺼주기
+  useEffect(() => {
+    return () => {
+      setValidateMode(false);
+    };
+  }, []);
 
   //* 회원가입 폼 제출하기
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
