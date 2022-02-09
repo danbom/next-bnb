@@ -6,6 +6,8 @@ import NextbnbLogoIcon from "../public/static/svg/logo/logo.svg";
 import NextbnbLogoTextIcon from "../public/static/svg/logo/logo_text.svg";
 import SignUpModal from "./auth/SignUpModal";
 import useModal from "../hooks/useModal";
+import { useSelector } from "../store";
+import HamburgerIcon from "../public/static/svg/header/hambrger.svg";
 
 const Container = styled.div`
   position: sticky;
@@ -55,34 +57,33 @@ const Container = styled.div`
       }
     }
   }
-  /* .modal-wrapper {
-    width: 100%auto;
-    height: 100%;
+  .header-user-profile {
     display: flex;
-    justify-content: center;
     align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    .modal-background {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.75);
-      z-index: 10;
+    height: 42px;
+    padding: 0 6px 0 16px;
+    border: 0;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.18);
+    border-radius: 21px;
+    background-color: white;
+    cursor: pointer;
+    outline: none;
+    &:hover {
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
     }
-    .modal-contents {
-      width: 400px;
-      height: 400px;
-      background-color: white;
-      z-index: 11;
+    .header-user-profile-image {
+      margin-left: 8px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
     }
-  } */
+  }
 `;
 
 const Header: React.FC = () => {
   //* 모달을 열고 닫을 boolean 값
   const { openModal, ModalPortal, closeModal } = useModal();
+  const user = useSelector((state) => state.user);
   return (
     <Container>
       <Link href="/">
@@ -91,18 +92,30 @@ const Header: React.FC = () => {
           <NextbnbLogoTextIcon />
         </a>
       </Link>
-      <div className="header-auth-buttons">
-        <button
-          type="button"
-          className="header-sign-up-button"
-          onClick={openModal}
-        >
-          회원가입
+      {!user.isLogged && (
+        <div className="header-auth-buttons">
+          <button
+            type="button"
+            className="header-sign-up-button"
+            onClick={openModal}
+          >
+            회원가입
+          </button>
+          <button type="button" className="header-login-button">
+            로그인
+          </button>
+        </div>
+      )}
+      {user.isLogged && (
+        <button className="header-user-profile" type="button">
+          <HamburgerIcon />
+          <img
+            src={user.profileImage}
+            className="header-user-profile-image"
+            alt=""
+          />
         </button>
-        <button type="button" className="header-login-button">
-          로그인
-        </button>
-      </div>
+      )}
       <ModalPortal>
         <SignUpModal closeModal={closeModal} />
       </ModalPortal>
