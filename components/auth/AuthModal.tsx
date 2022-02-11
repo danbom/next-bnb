@@ -102,7 +102,7 @@ interface IProps {
   closeModal: () => void;
 }
 
-const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
+const AuthModal: React.FC<IProps> = ({ closeModal }) => {
   const [email, setEmail] = useState("");
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -382,4 +382,4 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
   );
 };
 
-export default SignUpModal;
+export default AuthModal;
