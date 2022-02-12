@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CloseXIcon from "../../public/static/svg/modal/modal_close_x_icon.svg";
 import MailIcon from "../../public/static/svg/auth/mail.svg";
 import ClosedEyeIcon from "../../public/static/svg/auth/closed_eye.svg";
+import OpenedEyeIcon from "../../public/static/svg/auth/opened_eye.svg";
 import palette from "../../styles/palette";
 import Button from "../common/Button";
 import Input from "../common/Input";
@@ -67,6 +68,26 @@ interface IProps {
 }
 
 const LoginModal: React.FC<IProps> = ({ closeModal }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  const [isPasswordHided, setIsPasswordHided] = useState(true);
+  
+  //* 이메일 주소 변경시
+  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  
+  //* 비밀번호 변경 시
+  const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+  
+  //* isPasswordHided 토글
+  const togglePasswowrdHiding = () => {
+    setIsPasswordHided(!isPasswordHided);
+  };
+    
   return (
     <Container>
       <CloseXIcon className="modal-close-x-icon" onClick={closeModal} />
@@ -78,13 +99,18 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
           type="email"
           icon={<MailIcon style={{ top: 16 }} />}
           name="email"
+          value={email}
+          onChange={onChangeEmail}
         />
       </div>
       <div className="login-input-wrapper login-password-input-wrapper">
         <Input
           placeholder="🔑 비밀번호"
-          type="password"
-          icon={<ClosedEyeIcon style={{ top: 20 }} />}
+          type={isPasswordHided ? "password" : "text"}
+          icon={isPasswordHided ? (<ClosedEyeIcon style={{ top: 20 }} onClick={togglePasswowrdHiding} />) : (<OpenedEyeIcon style={{ top: 20 }} onClick={togglePasswowrdHiding} />)}
+          name="password"
+          value={password}
+          onChange
         />
       </div>
       <div className="login-modal-submit-button-wrapper">
