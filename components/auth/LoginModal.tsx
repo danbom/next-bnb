@@ -10,6 +10,7 @@ import Button from "../common/Button";
 import Input from "../common/Input";
 import { authActions } from "../../store/auth";
 import { loginAPI } from "../../lib/api/auth";
+import useValidateMode from "../../hooks/useValidateMode";
 
 const Container = styled.form`
   width: 568px;
@@ -92,6 +93,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
   };
 
   const dispatch = useDispatch();
+  const { setValidateMode } = useValidateMode();
 
   //* 회원가입 모달로 변경하기
   const changeToSignUpModal = () => {
@@ -101,6 +103,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
   //* 로그인 버튼 클릭 시
   const onSubmitLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setValidateMode(true);
     if (!email || !password) {
       alert("이메일과 비밀번호를 입력해주세요!");
     } else {
@@ -127,6 +130,8 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
           name="email"
           value={email}
           onChange={onChangeEmail}
+          isValid={email !== ""}
+          errorMessage="😳 이메일을 입력해주세요!"
         />
       </div>
       <div className="login-input-wrapper login-password-input-wrapper">
@@ -149,6 +154,8 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
           name="password"
           value={password}
           onChange={onChangePassword}
+          isValid={password !== ""}
+          errorMessage="😳 비밀번호를 입력해주세요!"
         />
       </div>
       <div className="login-modal-submit-button-wrapper">
