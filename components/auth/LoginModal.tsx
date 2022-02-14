@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import CloseXIcon from "../../public/static/svg/modal/modal_close_x_icon.svg";
 import MailIcon from "../../public/static/svg/auth/mail.svg";
 import ClosedEyeIcon from "../../public/static/svg/auth/closed_eye.svg";
@@ -7,6 +8,7 @@ import OpenedEyeIcon from "../../public/static/svg/auth/opened_eye.svg";
 import palette from "../../styles/palette";
 import Button from "../common/Button";
 import Input from "../common/Input";
+import { authActions } from "../../store/auth";
 
 const Container = styled.form`
   width: 568px;
@@ -88,6 +90,13 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
     setIsPasswordHided(!isPasswordHided);
   };
 
+  const dispatch = useDispatch();
+
+  //* 회원가입 모달로 변경하기
+  const changeToSignUpModal = () => {
+    dispatch(authActions.setAuthMode("signup"));
+  };
+
   return (
     <Container>
       <CloseXIcon className="modal-close-x-icon" onClick={closeModal} />
@@ -130,7 +139,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
       </div>
       <p className="login-modal-set-signup">
         넥스트비앤비 계정이 없나요?
-        <span role="presentation" onClick={() => {}}>
+        <span role="presentation" onClick={changeToSignUpModal}>
           회원가입
         </span>
       </p>
