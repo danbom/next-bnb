@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import CloseXIcon from "../../public/static/svg/modal/modal_close_x_icon.svg";
@@ -11,6 +11,7 @@ import Input from "../common/Input";
 import { authActions } from "../../store/auth";
 import { loginAPI } from "../../lib/api/auth";
 import useValidateMode from "../../hooks/useValidateMode";
+import { userActions } from "../../store/user";
 
 const Container = styled.form`
   width: 568px;
@@ -112,11 +113,20 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
       try {
         const { data } = await loginAPI(loginBody);
         console.log(data);
+        dispatch(userActions.setLoggedUser(data));
+        closeModal();
       } catch (e) {
         console.log(e);
       }
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setValidateMode(false);
+    };
+  }, []);
+
   return (
     <Container onSubmit={onSubmitLogin}>
       <CloseXIcon className="modal-close-x-icon" onClick={closeModal} />
