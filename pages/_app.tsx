@@ -2,6 +2,7 @@ import App, { AppProps, AppContext } from "next/app";
 import Header from "../components/Header";
 import GlobalStyle from "../styles/GlobalStyles";
 import { wrapper } from "../store";
+import { cookieStringToObject } from "../lib/utils";
 
 const app = ({ Component, pageProps }: AppProps) => {
   return (
@@ -24,7 +25,8 @@ const app = ({ Component, pageProps }: AppProps) => {
 //* 모든 페이지에서 로그인 정보 불러올 수 있도록 App 컴포넌트의 getInitialProps 사용하기
 app.getInitialProps = async (context: AppContext) => {
   const appInitialProps = await App.getInitialProps(context);
-  console.log(context.ctx.req?.headers.cookie);
+  const cookieObject = cookieStringToObject(context.ctx.req?.headers.cookie);
+  console.log(cookieObject);
   return { ...appInitialProps };
 };
 
