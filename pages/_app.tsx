@@ -3,6 +3,9 @@ import Header from "../components/Header";
 import GlobalStyle from "../styles/GlobalStyles";
 import { wrapper } from "../store";
 import { cookieStringToObject } from "../lib/utils";
+import axios from "../lib/api";
+import { meAPI } from "../lib/api/auth";
+import { userActions } from "../store/user";
 
 const app = ({ Component, pageProps }: AppProps) => {
   return (
@@ -25,8 +28,22 @@ const app = ({ Component, pageProps }: AppProps) => {
 //* 모든 페이지에서 로그인 정보 불러올 수 있도록 App 컴포넌트의 getInitialProps 사용하기
 app.getInitialProps = async (context: AppContext) => {
   const appInitialProps = await App.getInitialProps(context);
+
+  //* 구해진 access_token 값을 서버로 보내기 위해
+  //* api 요청 헤더에 함께 보내도록 axios 헤더의 쿠키에 access_token 값 저장
   const cookieObject = cookieStringToObject(context.ctx.req?.headers.cookie);
-  console.log(cookieObject);
+  const { store } = context.ctx;
+  const { isLogged } = store.getState().user;
+  try {
+    if (!isLogged && cookieObject.access_token) {
+      axios.defaults.headers.cookie = cookieObject.access_token;
+      const { data } = await meAPI();
+      store.dispatch(userActions.setLoggedUser(data));
+      console.log(data);
+    }
+  } catch (e) {
+    console.log(e);
+  }
   return { ...appInitialProps };
 };
 
