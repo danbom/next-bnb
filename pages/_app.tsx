@@ -1,9 +1,9 @@
-import App, { AppProps, AppContext } from "next/app";
+import App, { AppContext, AppProps } from "next/app";
+import axios from "../lib/api";
 import Header from "../components/Header";
 import GlobalStyle from "../styles/GlobalStyles";
 import { wrapper } from "../store";
 import { cookieStringToObject } from "../lib/utils";
-import axios from "../lib/api";
 import { meAPI } from "../lib/api/auth";
 import { userActions } from "../store/user";
 
@@ -39,7 +39,6 @@ app.getInitialProps = async (context: AppContext) => {
       axios.defaults.headers.cookie = cookieObject.access_token;
       const { data } = await meAPI();
       store.dispatch(userActions.setLoggedUser(data));
-      console.log(data);
     }
   } catch (e) {
     console.log(e);
